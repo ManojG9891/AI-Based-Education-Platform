@@ -94,37 +94,37 @@ The platform is built with a modular architecture, comprising a Flask-based back
 
 Install dependencies using:
 
+```bash
 pip install -r requirements.txt
+```
 
 (Create a requirements.txt file with all dependencies listed.)
 
-Challenges and Considerations
+## Challenges and Considerations
 
-Data Quality and Completeness [1]
-User Input Variability [1]
-Scalability [1]
-Model Limitations [1]
-Real-Time Feedback and Customization [1]
-
-
-Future Enhancements
-
-User Interface (UI) Improvements [1]
-Integration with Online Learning Platforms [1]
-Expanded Dataset [1]
-AI Feedback Mechanism [1]
-Career Path Simulation [1]
-Mobile Support [1]
-Multilingual capabilities [1]
+*   Data Quality and Completeness [1]
+*   User Input Variability [1]
+*   Scalability [1]
+*   Model Limitations [1]
+*   Real-Time Feedback and Customization [1]
 
 
+## Future Enhancements
 
-References
+*   User Interface (UI) Improvements [1]
+*   Integration with Online Learning Platforms [1]
+*   Expanded Dataset [1]
+*   AI Feedback Mechanism [1]
+*   Career Path Simulation [1]
+*   Mobile Support [1]
+*   Multilingual capabilities [1]
 
-Google Gemini API Documentation [2]
-Flask Documentation [2]
-PyPDF2 Library Documentation [2]
-Scikit-Learn Documentation [2]
-AI in Career Guidance [2]
-Educational Recommendation Systems [2]
-Hugging Face Tools [2]
+
+
+## References
+
+*   Google Gemini API Documentation [2]
+*   Flask Documentation [2]
+*   PyPDF2 Library Documentation [2]
+*   Scikit-Learn Documentation [2]
+*   Hugging Face Tools [2]
