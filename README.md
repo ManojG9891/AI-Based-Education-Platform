@@ -27,7 +27,6 @@ The AI Based Education Platform is an innovative AI-driven solution designed to 
 *   [Dependencies](#dependencies)
 *   [Challenges and Considerations](#challenges-and-considerations)
 *   [Future Enhancements](#future-enhancements)
-*   [Contributing](#contributing)
 *   [References](#references)
 
 ## Installation
@@ -36,11 +35,11 @@ Provide step-by-step instructions on how to install the project.  For example:
 
 1.  Clone the repository:
     ```bash
-    git clone [your_repository_url]
+    git clone https://github.com/ManojG9891/AI-Based-Education-Platform.git
     ```
 2.  Navigate to the project directory:
     ```bash
-    cd [project_directory]
+    cd AI-Based-Education-Platform
     ```
 3.  Install the dependencies:
     ```bash
@@ -59,11 +58,11 @@ Explain how to use the platform. Include examples of how to provide input and in
 2.  **Accessing the Platform:** Open your web browser and go to `http://localhost:[port_number]` [1].
 3.  **Career Guidance:**
     *   Enter your information (current domain, area of interest, career aspirations, excelled subjects, long-term vision) in the provided form [1].
-    *   Click "Submit" to receive personalized career recommendations, including courses, certifications, and a career roadmap [1]. See figures 6.5 (c), (d) and (e) [1].
+    *   Click "Submit" to receive personalized career recommendations, including courses, certifications, and a career roadmap [1].
 4.  **Document Query:**
     *   Upload a PDF document [1].
     *   Enter your question related to the document's content [1].
-    *   Click "Submit" to receive an AI-generated answer [1]. See figures 6.5 (f) and (g) [1].
+    *   Click "Submit" to receive an AI-generated answer [1].
 
 ## System Architecture
 
