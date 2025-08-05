@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Panel</title>
+    <style>
+
+        /* Global Styling */
+        body, html {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            
+            overflow-y: auto;
+            margin: 0;
+           overflow: hidden;
+        }
+
+        /* Header Section */
+        .header {
+            width: 100%;
+            background: linear-gradient(135deg, #343a40, #495057);
+            color: white;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .header-logo {
+            margin-left: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        /* Container Styling */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+            flex-direction: column;
+            margin-top: 50px;
+        }
+
+        /* Main Panel Styling */
+        .main {
+            width: 100%;
+            background: linear-gradient(135deg, #9d53eb8d, #5292ff81);
+            color: white;
+            padding: 21px 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 80px;
+            margin-top: 10px;
+            
+        }
+
+        /* Left and Right Column Styling */
+        .left-column, .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .left-column {
+            width: 45%;
+        }
+
+        .right-column {
+            width: 45%;
+        }
+
+        /* Text and Button Styling */
+        h2 {
+            margin-bottom: 20px;
+            font-size: 26px;
+            font-weight: 600;
+            color: #282424;
+        }
+
+        .radio-card {
+            display: inline-block;
+            margin-right: 20px;
+            cursor: pointer;
+            font-size: 23px;
+            color: #282424;
+            margin-bottom: 45px;
+            margin-left: 20px;
+            margin-top: -10px;
+        }
+
+        .radio-card:hover {
+            color: #f45c10;
+           
+        }
+
+        .select-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 30px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            margin: 10px auto;
+            margin-top: -10px;
+            margin-left: 90px;
+            margin-bottom: 30px;
+        }
+
+        .select-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Submit Button Styling */
+        .submit-btn {
+            background: linear-gradient(to right, #ff4d6d, #ff0066);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 15px 40px;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-top: -40px;
+            width: 100%;
+            max-width: 420px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .submit-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .submit-btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Popup Styling */
+        .popup {
+    display: none;
+    position: fixed;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 90%;
+    max-width: 1100px;
+    max-height: 95%;
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+    padding: 30px;
+    z-index: 100;
+    overflow-y: auto;
+    animation: popupIn 0.4s forwards;
+}
+
+        .popup.active {
+            display: block;
+        }
+
+        /* Popup Content */
+        .popup-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .popup-column {
+            padding: 15px;
+            border-radius: 10px;
+            background: #f9f9f9;
+            
+        }
+        .popup-column h3 {
+    font-size: 21px;
+    margin-bottom: 15px;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.popup-column label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 8px;
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.popup-column label:hover {
+    color: #007bff;
+}
+
+.two-column-layout {
+    grid-template-columns: repeat(2, 1fr); /* Explicit two-column layout */
+    font-size: 18px;
+}
+
+        /* Close Button */
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            cursor: pointer;
+            color: #ff4c4c;
+            font-size: 1.8em;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            transform: rotate(90deg);
+            color: #d32f2f;
+        }
+
+        .confirm-btn {
+    display: block;
+    margin: 20px auto;
+    background: linear-gradient(135deg, #ff7200, #ff944d);
+    color: white;
+    font-size: 18px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    text-align: center;
+}
+
+        .select-btn:hover, .submit-btn:hover {
+            background: linear-gradient(135deg, #ff7f50, #ff6a6a);
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .select-btn.selected {
+            background: linear-gradient(135deg, #4caf50, #81c784);
+            transform: scale(1.02);
+        }
+
+
+
+        @keyframes popupIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0.9);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 20px;
+                padding-top: 60px;
+            }
+
+            .left-column, .right-column {
+                width: 100%;
+                text-align: center;
+            }
+
+            .select-btn, .submit-btn {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <h1 class="header-logo">Career Roadmap Recommendations</h1>
+    </header>
+
+    <div class="container">
+        <div class="main">
+            <div class="left-column">
+                <h2>1. Select your current class level.</h2>
+                <div class="op1">
+                    <label class="radio-card">
+                        <input type="radio" name="class" value="10th/12th" onclick="updateSecondQuestion()">
+                        <span class="card-content">10th/12th</span>
+                    </label>
+                    <label class="radio-card">
+                        <input type="radio" name="class" value="UG" onclick="updateSecondQuestion()">
+                        <span class="card-content">UnderGraduate</span>
+                    </label>
+                    <label class="radio-card">
+                        <input type="radio" name="class" value="PG" onclick="updateSecondQuestion()">
+                        <span class="card-content">PostGraduate</span>
+                    </label>
+                </div>
+
+                <h2>3. Identify the areas of interest that align with your goals.</h2>
+                <button id="interestBtn" class="select-btn" onclick="openPopup('interest')">Select Area</button>
+
+                <h2>5. Highlight the subjects in which you excel.</h2>
+                <button id="subjectBtn" class="select-btn" onclick="openPopup('subject')">Select Subject</button>
+            </div>
+
+            <div class="right-column">
+                <h2 id="secondQuestion">2. Specify your current domain or area of expertise.</h2>
+                <button id="domainBtn" class="select-btn" onclick="openPopup('domain')">Select Domain</button>
+
+                <h2>4. Define your career aspirations or desired career path.</h2>
+                <button id="aspirationBtn" class="select-btn" onclick="openPopup('aspiration')">Select Aspiration</button>
+
+                <h2>6. Specify your long-term professional goals.</h2>
+                <button id="goalBtn" class="select-btn" onclick="openPopup('goal')">Select Goal</button>
+            </div>
+            <button class="submit-btn" onclick="submitForm()">SUBMIT</button>
+        </div>
+
+        
+    </div>
+
+    <div id="popup" class="popup">
+        <div class="close-btn" onclick="closePopup()">x</div>
+        <div id="popup-content" class="popup-content"></div>
+        <button class="confirm-btn" onclick="confirmSelection()">Confirm</button>
+    </div>
+
+
+<script>
+
+    const present_domain_ug = ["Computer Science Engineering",
+    "Artificial Intelligence and Machine Learning",
+    "Mechanical Engineering",
+    "Civil Engineering",
+    "Electrical Engineering",
+    "Electronics and Communication Engineering",
+    "Aerospace Engineering",
+    "Bachelor of Computer Applications (BCA)",
+    "Accounting (B.Com)",
+    "Finance (B.Com)",
+    "Biotechnology"];
+
+    const present_domain_pg = ["M.Tech in Computer Science",
+    "M.Tech in Artificial Intelligence",
+    "M.Tech in Data Science",
+    "M.Tech in Mechanical Engineering",
+    "M.Tech in Electronics and Communication Engineering",
+    "M.Tech in Machine Learning",
+    "M.Tech in Cyber Security",
+    "M.Tech in Cloud Computing",
+    "M.Tech in Robotics and Automation", 
+    "MBA (Marketing)",
+    "MBA (Finance)",
+    "MBA (IT)",
+    "MBA (General)"];
+
+    const Areas_of_Interest = {
+    "Software and IT Solutions": [
+        "Software Development",
+        "Mobile App Development",
+        "User Experience (UX) Design",
+        "Cloud Computing",
+        "Data Science",
+        "Artificial Intelligence",
+        "Cyber Security",
+        "Data Analytics",         
+        "Project Management"       
+    ],
+    
+    "Engineering and Automation": [
+        "Robotics",
+        "Automation Engineering",
+        "Embedded Systems",
+        "Machine Learning",
+        "Bioinformatics",
+        "IoT (Internet of Things)"  
+    ],
+    
+    "Business, Finance, and Marketing": [
+        "Financial Technology (FinTech)",
+        "Finance",
+        "Business Analytics",
+        "E-commerce",
+        "Supply Chain Management",
+        "Digital Marketing"
+    ]
+};
+
+    const career_aspirations = {
+    "Tech-Driven Careers": [
+        "Software Engineer",
+        "AI Engineer",
+        "Cloud Solutions Architect",
+        "UX/UI Designer",
+        "AI Research Scientist",
+        "Data Scientist",
+        "Mobile Application Developer",
+        "Game Developer",
+        "Data Analyst",
+        "Database Administrator"
+    ],
+    
+    "Engineering Specializations": [
+        "Robotics Engineer",
+        "Cyber Security Analyst",
+        "Machine Learning Engineer",
+        "IoT Engineer",
+        "Product Development Engineer",
+        "Bioinformatics Researcher",
+        "Blockchain Developer",
+        "Ethical Hacker"
+    ],
+    
+    "Business and Finance Expertise": [
+        "Marketing Manager",
+        "Financial Analyst",
+        "Project Manager",
+        "E-commerce Specialist",
+        "Business Analyst",
+        "Supply Chain Analyst"
+    ]
+};
+
+    const excelled_subjects = {
+        "Software and Programming": [
+        "Programming Languages (Python, Java, C)",
+        "Machine Learning Techniques",
+        "Data Analysis with Python",
+        "Artificial Intelligence Concepts",
+        "Deep Learning Techniques",
+        "Data Structures and Algorithms",
+        "Software Engineering Principles",
+        "Cyber Security Essentials",
+        "Cloud Computing Fundamentals",
+        "Front End Designing Languages (HTML, CSS, JavaScript)",
+        "Database Management Systems",
+        "User Experience (UX/UI) Design",
+        "Project Management Principles"  
+    ],
+    
+    "Engineering and Technical Studies": [
+        "Robotics Programming",
+        "Embedded Systems Design",
+        "Control Systems",
+        "Computer Networks",
+        "Digital Signal Processing",
+        "Thermodynamics",
+        "Computational Biology",
+        "Statistics and Probability"
+    ],
+    
+    "Finance and Marketing Skills": [
+        "Marketing Principles",
+        "Financial Accounting",
+        "Digital Marketing"  
+    ]
+};
+
+    const long_term_vision = {
+    "Software Development and Technical Leadership": [
+        "Software Development Leader",
+        "Artificial Intelligence Specialist",
+        "Robotics Specialist",
+        "Cybersecurity Professional",
+        "Cloud Technology Innovator",
+        "IoT Solutions Engineer",
+        "Game Development Specialist",
+        "Project Management Professional"
+    ],
+    
+    "Data Science and Artificial Intelligence Expertise": [
+        "Data Science Expert",
+        "Machine Learning Researcher",
+        "Artificial Intelligence Specialist",
+        "AI Research Scientist",
+        "AI Engineer",
+        "Data-Driven Decision Maker"
+    ],
+    
+    "Marketing and Business Analytics": [
+        "Digital Marketing Expert",
+        "Financial Technology Innovator",
+        "Financial Analyst",
+        "E-commerce Innovator",
+        "Business Development Executive",
+        "Business Analytics Strategist",
+        "Supply Chain Optimization Expert",
+        "User Experience Advocate",
+        "Bioinformatics Researcher",
+        "Mechanical Engineering Leader"
+    ]
+};
+
+    let selectedOptions = {};
+    let currentPopupType = '';
+
+    function updateSecondQuestion() {
+    const selectedClass = document.querySelector('input[name="class"]:checked').value;
+
+    // Update the question text based on the selected class
+    if (selectedClass === '10th/12th') {
+        document.getElementById('secondQuestion').textContent = '2. Choose the domain you wish to pursue in the future.';
+    } else if (selectedClass === 'UG') {
+        document.getElementById('secondQuestion').textContent = '2. Specify your current domain or area of expertise.';
+    } else if (selectedClass === 'PG') {
+        document.getElementById('secondQuestion').textContent = '2. Specify your current domain or area of expertise.';
+    }
+
+    // Clear the selection for the second question
+    const domainRadioButtons = document.querySelectorAll('input[name="domain"]');
+    domainRadioButtons.forEach(button => (button.checked = false));
+
+    // Reset the button text and styling for the second question
+    const domainBtn = document.getElementById('domainBtn');
+    domainBtn.textContent = 'Select Domain'; // Reset text
+    domainBtn.classList.remove('selected'); // Remove selected style if applied
+
+    // Remove the second question's value from selectedOptions
+    delete selectedOptions['domain'];
+}
+
+
+// Function to open the popup and handle different types
+function openPopup(type) {
+    currentPopupType = type;
+    let options;
+    let popupContent = document.getElementById('popup-content');
+    popupContent.innerHTML = ''; // Clear any previous content
+
+    // For the domain selection popup
+    if (type === 'domain') {
+        const selectedClass = document.querySelector('input[name="class"]:checked');
+        if (selectedClass) {
+            if (selectedClass.value === '10th/12th') {
+                options = present_domain_ug; // UG domains for 10th/12th
+            } else if (selectedClass.value === 'UG') {
+                options = present_domain_ug; // UG domains
+            } else if (selectedClass.value === 'PG') {
+                options = present_domain_pg; // PG domains
+            }
+        } else {
+            alert("Please select a class first!"); // Alert if no class is selected
+            return;
+        }
+
+        // Apply two-column layout only for domain options
+        popupContent.classList.add('two-column-layout');
+
+        // Populate popup content with domain options
+        popupContent.innerHTML = options
+            .map(option => `<label><input type="radio" name="domain" value="${option}">${option}</label>`)
+            .join('');
+        document.getElementById('popup').style.display = 'block';
+    } else {
+        // Remove the two-column layout class for other popups
+        popupContent.classList.remove('two-column-layout');
+
+        // Handle other popup types
+        switch (type) {
+            case 'interest':
+                options = Areas_of_Interest;
+                break;
+            case 'aspiration':
+                options = career_aspirations;
+                break;
+            case 'subject':
+                options = excelled_subjects;
+                // Populate content for the subject popup with checkboxes
+                popupContent.innerHTML = Object.keys(options)
+                    .map(column => `
+                        <div class="popup-column">
+                            <h3>${column}</h3>
+                            ${options[column]
+                                .map(option => `<label><input type="checkbox" name="${type}" value="${option}">${option}</label>`)
+                                .join('')}
+                        </div>
+                    `).join('');
+                document.getElementById('popup').style.display = 'block';
+                break;
+            case 'goal':
+                options = long_term_vision;
+                break;
+        }
+
+        // Populate content for other popup types (radio buttons)
+        if (type !== 'subject') {
+            popupContent.innerHTML = Object.keys(options)
+                .map(column => `
+                    <div class="popup-column">
+                        <h3>${column}</h3>
+                        ${options[column]
+                            .map(option => `<label><input type="radio" name="${type}" value="${option}">${option}</label>`)
+                            .join('')}
+                    </div>
+                `).join('');
+            document.getElementById('popup').style.display = 'block';
+        }
+    }
+}
+
+// Function to handle the display of selected subjects
+function handleSubjectSelection() {
+    // Collect all checked subjects
+    const selectedSubjects = Array.from(document.querySelectorAll('input[name="subject"]:checked'))
+        .map(checkbox => checkbox.value); // Get the value of each selected checkbox
+    
+    // If no subjects are selected, display a default message
+    const displayElement = document.getElementById('selected-subjects-display');
+    if (selectedSubjects.length === 0) {
+        displayElement.innerText = "No subjects selected.";
+    } else {
+        // Join the selected subjects into a comma-separated string
+        const subjectDisplay = selectedSubjects.join(', ');
+        displayElement.innerText = `Subjects selected: ${subjectDisplay}`;
+    }
+}
+
+// Add an event listener to the "Confirm" button or similar action for handling subject selection
+document.getElementById('confirm-subject-selection').addEventListener('click', handleSubjectSelection);
+
+
+
+function confirmSelection() {
+    if (currentPopupType === 'subject') {
+        // Get selected subjects (checkboxes)
+        const selectedCheckboxes = document.querySelectorAll(`input[name="${currentPopupType}"]:checked`);
+        const selectedSubjects = Array.from(selectedCheckboxes).map(checkbox => checkbox.value); // Get values as an array
+        
+        // Update the selected options object
+        selectedOptions[currentPopupType] = selectedSubjects.join(', '); // Join the selected subjects into a string
+        
+        // Update button text to reflect the selected subjects (comma-separated)
+        const buttonText = selectedSubjects.length > 0 ? selectedSubjects.join(', ') : "Select Subject";
+        document.getElementById(`${currentPopupType}Btn`).textContent = buttonText;
+    } else {
+        // Handle single option selections (like radio buttons for domain)
+        let selectedOption = document.querySelector(`input[name="${currentPopupType}"]:checked`);
+        if (selectedOption) {
+            selectedOptions[currentPopupType] = selectedOption.value;
+            // Update button text
+            document.getElementById(`${currentPopupType}Btn`).textContent = selectedOption.value;
+        }
+    }
+
+    // Apply 'selected' class to the button
+    document.getElementById(`${currentPopupType}Btn`).classList.add('selected');
+    closePopup();
+}
+
+
+   
+function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+    }
+
+    function displayAnswer() {
+    const user_present_domain = selectedOptions['domain'] || '';
+    const user_area_of_interest = selectedOptions['interest'] || '';
+    const user_career_aspiration = selectedOptions['aspiration'] || '';
+    const user_excelled_subjects = selectedOptions['subject'] || '';
+    const user_long_term_vision = selectedOptions['goal'] || '';
+
+    // Ensure all fields are filled
+    if (!user_present_domain || !user_area_of_interest || !user_career_aspiration || !user_excelled_subjects || !user_long_term_vision) {
+        alert("Please answer all questions before submitting.");
+        return;
+    }
+
+    // Send the data via a fetch request
+    fetch('/career_roadmap', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `present_domain=${encodeURIComponent(user_present_domain)}&area_of_interest=${encodeURIComponent(user_area_of_interest)}&career_aspiration=${encodeURIComponent(user_career_aspiration)}&excelled_subjects=${encodeURIComponent(user_excelled_subjects)}&long_term_vision=${encodeURIComponent(user_long_term_vision)}`
+    })
+    .then(response => response.json())  // Ensure the server returns JSON
+    .then(data => {
+        console.log(data);  // Check the data in the console to ensure it's correct
+        // You may render the recommendations dynamically using JavaScript, or you can redirect to the recommendation page
+        window.location.href = "/recommendation";  // This redirects to the recommendation page
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function submitForm() {
+    const user_present_domain = selectedOptions['domain'] || '';
+    const user_area_of_interest = selectedOptions['interest'] || '';
+    const user_career_aspiration = selectedOptions['aspiration'] || '';
+    const user_excelled_subjects = selectedOptions['subject'] || '';
+    const user_long_term_vision = selectedOptions['goal'] || '';
+
+    // Ensure all fields are filled
+    if (!user_present_domain || !user_area_of_interest || !user_career_aspiration || !user_excelled_subjects || !user_long_term_vision) {
+        alert("Please answer all questions before submitting.");
+        return;
+    }
+
+    // Send the data via a fetch request
+    fetch('/career_roadmap', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `present_domain=${encodeURIComponent(user_present_domain)}&area_of_interest=${encodeURIComponent(user_area_of_interest)}&career_aspiration=${encodeURIComponent(user_career_aspiration)}&excelled_subjects=${encodeURIComponent(user_excelled_subjects)}&long_term_vision=${encodeURIComponent(user_long_term_vision)}`,
+    })
+        .then(response => {
+            if (response.redirected) {
+                // Handle redirection manually
+                window.location.href = response.url;
+            } else {
+                return response.json();
+            }
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+</script>
+
+</body>
+</html>
+

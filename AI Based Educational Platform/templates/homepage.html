@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Education Platform</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Verdana', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            scroll-behavior: smooth;
+            height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header Section */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Vertically aligns items in the center */
+    z-index: 1000;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+        .header.sticky {
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        header img {
+            margin-left: 5px;
+            width: 370px;
+            margin-top: 5px;
+    vertical-align: middle; 
+        }
+
+        .nav {
+            margin-right: 30px;
+        }
+
+        .nav a {
+            font-family: 'Arial Rounded MT Bold', sans-serif;
+            text-decoration: none;
+            font-size: 26px;
+            color: #007bff;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            align-items: center;
+            margin-right: 40px;
+        }
+
+        .nav a:hover {
+            outline: 2px solid white;
+            border-radius: 15px;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            background: url('static/index.jpg');
+            background-size: cover;
+            color: white;
+            position: relative;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .hero h1,
+        .hero p {
+            z-index: 2;
+            animation: fadeInUp 1s ease forwards;
+        }
+
+        .hero h1 {
+            margin-top: -70px;
+            font-size: 50px;
+            font-weight: bold;
+            z-index: 2;
+            margin-bottom: 0px;
+        }
+
+        .hero p {
+            font-size: 25px;
+            line-height: 1.6;
+            z-index: 2;
+            margin-bottom: 25px;
+        }
+
+        .hero .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            font-size: 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            z-index: 2;
+        }
+
+        .hero .btn:hover {
+            transform: scale(1.1);
+            background: #0056b3;
+        }
+
+        .about {
+            padding: 40px 20px;
+            text-align: center;
+            background-color: #f9f9f9;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .about.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .about h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .about p {
+            font-size: 19px;
+            max-width: 1200px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* Details Section */
+        .details {
+            padding: 0px 50px;
+        }
+
+        .details .detail {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+
+        .details .detail.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .details .detail img {
+            width: 320px;
+            border-radius: 15px;
+        }
+
+        .details .detail .text {
+            flex: 1;
+        }
+
+        .details .detail .text h3 {
+            font-size: 24px;
+            margin-bottom: 40px;
+        }
+
+        .details .detail .text p {
+            font-size: 19px;
+            color: #555;
+        }
+
+        .details .detail.reverse img {
+            order: 2;
+            transform: translateX(50px);
+            margin-right: 50px;
+        }
+
+        /* Arrow Mark */
+        .arrow {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10;
+            font-size: 30px;
+            color: white;
+            background-color: #007bff;
+            padding: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Keyframes */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <img src="static/logoname.png" alt="Logo">
+        <nav class="nav">
+            <a href="#about">About</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Learn Smart, Build Futures</h1>
+        <p>Empowering students with AI to bridge the gap between their current knowledge and 
+            <br> future aspirations through personalized learning and career paths.
+        </p>
+        <a href="/dashboard" class="btn" id="get-started-btn">Get Started</a>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <h2>About Us</h2>
+        <p>Our AI-powered platform offers personalized educational experiences and career guidance. 
+            By analyzing students aspirations, interests, and learning history, we recommend tailored courses and career roadmaps. 
+            Students can also upload study materials, and our AI generates precise answers based on the content, ensuring accurate and context-driven support.
+        </p>
+    </section>
+
+    <section class="details">
+        <div class="detail">
+            <img src="static/roadmap.png" alt="Recommendations">
+            <div class="text">
+                <h3>AI-Powered Career Roadmap Recommendations</h3>
+                <p>Our platform leverages AI to analyze your learning history, academic preferences, and career goals. 
+                    Based on this analysis, we recommend courses, textbooks, and resources that align with your current domain and future aspirations. 
+                    It also provides personalized career roadmaps, helping you develop essential skills and identify opportunities for growth.</p>
+            </div>
+        </div>
+        <div class="detail reverse">
+            <img src="static/answer.webp" alt="AI Analysis">
+            <div class="text">
+                <h3>AI-Driven Answer Generation</h3>
+                <p>Using cutting-edge natural language processing (NLP), our platform processes uploaded study materials, 
+                    such as textbooks and notes, to deliver accurate, context-driven answers to your questions. 
+                    This ensures instant and reliable support, empowering you to focus on your learning and achieve your goals effectively.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Arrow -->
+    <div class="arrow" id="scroll-arrow">&#x2193;</div>
+
+    <script>
+        
+        window.addEventListener('scroll', function () {
+    const header = document.querySelector('.header');
+    const aboutSection = document.querySelector('.about');
+    const details = document.querySelectorAll('.detail');
+
+    // Sticky header
+    if (window.scrollY > 50) {
+        header.classList.add('sticky');
+    } else {
+        header.classList.remove('sticky');
+    }
+
+    // About Section Animation
+    const aboutPosition = aboutSection.getBoundingClientRect().top;
+    if (aboutPosition < window.innerHeight * 0.9) {
+        aboutSection.classList.add('visible');
+    } else {
+        aboutSection.classList.remove('visible'); // Reset animation
+    }
+
+    // Synchronize Details Section Animation
+    const firstDetailPosition = details[0].getBoundingClientRect().top;
+
+    if (firstDetailPosition < window.innerHeight * 0.9) {
+        // Add 'visible' class to all details at the same time
+        details.forEach((detail) => detail.classList.add('visible'));
+    } else {
+        // Remove 'visible' class from all details at the same time (optional, for resetting)
+        details.forEach((detail) => detail.classList.remove('visible'));
+    }
+});
+
+
+        // Smooth Scroll
+        document.querySelector('.nav a[href="#about"]').addEventListener('click', (e) => {
+        e.preventDefault();
+        const getStartedBtn = document.getElementById('get-started-btn');
+        const offsetTop = getStartedBtn.getBoundingClientRect().bottom + window.scrollY + 240; 
+        window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+        });
+    });
+    
+    const arrow = document.getElementById('scroll-arrow');
+    arrow.addEventListener('click', () => {
+        const getStartedBtn = document.getElementById('get-started-btn');
+        const offsetTop = getStartedBtn.getBoundingClientRect().bottom + window.scrollY + 240; // Add an extra 30px offset
+        window.scrollTo({
+            top: offsetTop,
+            behavior: 'smooth'
+        });
+    });
+
+        document.getElementById('get-started-btn').addEventListener('click', () => {
+            window.location.href = '/dashboard';
+        });
+    </script>
+</body>
+
+</html>

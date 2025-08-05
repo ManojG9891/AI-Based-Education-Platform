@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <style>
+        /* Global Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        /* Sidebar Styling */
+        .sidebar {
+            width: 250px;
+            background-color: #203955;
+            color: #ffffff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 2px 0 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar img {
+            margin-top: 7px;
+            width: auto;
+            height: 100px;
+        }
+
+        .sidebar a {
+            color: #ffffff;
+            text-decoration: none;
+            margin-top: 50px;
+            padding: 12px 15px;
+            font-size: 20px;
+            border-radius: 8px;
+            transition: background 0.3s, color 0.3s;
+            display: block;
+        }
+
+        .sidebar a:hover, .sidebar a:active {
+            background: #3b4e63;
+        }
+
+        .sidebar p {
+            color: #ffffff;
+            text-decoration: none;
+            margin-top: 20px ;
+            padding: 12px 15px;
+            font-size: 20px;
+            border-radius: 8px;
+            transition: background 0.3s, color 0.3s;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        #uploaded-filename {
+            padding: 12px 15px;
+            font-size: 21px;
+            display: block;
+    color: #0fefbe;  /* Change the color to your desired one (e.g., blue) */
+    word-wrap: break-word; /* Breaks long words onto the next line */
+    white-space: normal;   /* Wraps text normally */
+    overflow-wrap: break-word; /* Ensures long words are broken on smaller screens */
+}
+
+
+        /* Main Container Styling */
+        .container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 30px;
+            background-color: #ffffff;
+        }
+
+        /* Welcome Section */
+        
+        .welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* This ensures the container takes the full height of the viewport */
+    text-align: center;
+    margin-bottom: 100px;
+    
+}
+
+        .welcome-msg {
+            font-size: 31px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 25px;
+            color: #2e2e2e;
+            background: linear-gradient(90deg, #8c1aff, #e100ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* File Upload Button */
+        label[for="pdf-upload"] {
+            padding: 14px 30px;
+            font-size: 18px;
+            color: #ffffff;
+            background-color: #4a90e2;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label[for="pdf-upload"]:hover {
+            background-color: #357abd;
+        }
+
+        /* Chat Container */
+        .chat {
+            flex: 1;
+            overflow-y: auto;
+            margin-top: -10px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            margin-left: -13px;
+            margin-right: -13px;
+        }
+
+        /* Message Bubble Styles */
+        .message {
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+        }
+
+        .user {
+            justify-content: flex-end;
+        }
+
+        .bot {
+            justify-content: flex-start;
+        }
+
+        .text {
+            max-width: 70%;
+            padding: 12px 20px;
+            border-radius: 18px;
+            font-size: 15px;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .user .text {
+            background-color: #4a90e2;
+            border-top-left-radius: 18px;
+            font-size: 18px;
+        }
+
+        .bot .text {
+            background-color: #b4cff2;
+            color: #333;
+            border-top-right-radius: 18px;
+            font-size: 18px;
+        }
+
+        input[type="file"] {
+    display: none;
+}
+
+
+        /* Input Section */
+        .input-container {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            position: relative;
+            width: 90%;
+            margin-left: 53px;
+        }
+
+        .input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 3px solid #bdc3c7;
+            border-radius: 25px;
+            outline: none;
+            font-size: 19px;
+            color: #333;
+            background: #f9fafb;
+            transition: border-color 0.3s ease;
+            
+        }
+
+        .input:focus {
+            border-color: #4a90e2;
+        }
+
+        .send-icon {
+            position: absolute;
+            right: 15px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.3s;
+        }
+
+        .send-icon:hover {
+            transform: scale(1.1);
+            opacity: 1;
+        }
+
+        /* Scrollbar Styling */
+        .chat::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .chat::-webkit-scrollbar-thumb {
+            background: #f9fafb;
+            border-radius: 10px;
+        }
+
+        .chat::-webkit-scrollbar-thumb:hover {
+            background: #f9fafb;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                box-shadow: none;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+
+            .welcome-msg {
+                font-size: 1.3em;
+            }
+
+            .input-container {
+                flex-direction: column;
+            }
+
+            .input {
+                width: 100%;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div>
+            <img src="static/name.png" alt="Logo">
+            <a href="{{ url_for('chatback') }}" ><< Go Back</a>
+            <p>Uploaded file name :</p> <span id="uploaded-filename">None</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Welcome Section -->
+        <div class="welcome-container" id="welcome-container">
+            <div class="welcome-msg">Please upload your file to<br> Get started with your questions.</div>
+            <label for="pdf-upload">Choose PDF File</label>
+            <input type="file" id="pdf-upload" accept="application/pdf" onchange="fileUploaded()">
+        </div>
+        
+        <!-- Chat Section -->
+        <div class="chat" id="chat" style="display: none;"></div>
+        
+        <!-- Input Section -->
+        <div class="input-container" id="input-container" style="display: none;">
+            <input type="text" class="input" id="input" placeholder="Type your message here..." />
+            <img src="static/send.png" class="send-icon" onclick="sendMessage()" alt="Send Icon">
+        </div>
+    </div>
+
+    <script>
+        
+        function displayUserMessage(message) {
+        let chat = document.getElementById("chat");
+        let userMessage = document.createElement("div");
+        userMessage.classList.add("message", "user");
+        userMessage.innerHTML = `<div class="text">${formatText(message)}</div>`;
+        chat.appendChild(userMessage);
+        chat.scrollTop = chat.scrollHeight;
+    }
+
+        
+    function formatText(responseText) {
+    // Handle bold text
+    responseText = responseText.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // Handle new lines properly
+    responseText = responseText.replace(/\n/g, '<br>');
+
+    // Handle markdown tables, replace with HTML table format
+    responseText = responseText.replace(/(\|[\w\s\*\-]+(?:\|[\w\s\*\-]+)*\|)/g, function(match) {
+        const rows = match.split("\n").map(row => {
+            return row.split('|').map(cell => cell.trim()).join('</td><td>');
+        }).join('</td></tr><tr><td>');
+        
+        return `<table border="1"><tr><td>${rows}</td></tr></table>`;
+    });
+
+    return responseText;
+}
+
+function displayBotMessage(message) {
+    let chat = document.getElementById("chat");
+    let botMessage = document.createElement("div");
+    botMessage.classList.add("message", "bot");
+
+    // Format the response text with line breaks and bold handling
+    let formattedMessage = formatText(message);
+
+    botMessage.innerHTML = `<div class="text">${formattedMessage}</div>`;
+    chat.appendChild(botMessage);
+    chat.scrollTop = chat.scrollHeight;
+}
+
+
+
+        async function fileUploaded() {
+    let pdfFile = document.getElementById("pdf-upload").files[0];
+    
+    if (pdfFile) {
+        document.getElementById("uploaded-filename").innerText = pdfFile.name;
+        document.getElementById("welcome-container").style.display = "none";
+        document.getElementById("chat").style.display = "block";
+        document.getElementById("input-container").style.display = "flex";
+
+        displayBotMessage("File uploaded successfully. You may now start asking questions!");
+
+        const formData = new FormData();
+        formData.append('pdf', pdfFile);
+
+        try {
+            let response = await fetch('/chatbot', {
+                method: 'POST',
+                body: formData
+            });
+            let data = await response.json();
+            
+            if (data.response) {
+                displayBotMessage(data.response);
+            }
+        } catch (error) {
+            console.error("Error uploading file:", error);
+        }
+    }
+}
+
+
+
+
+
+    async function sendMessage() {
+        let input = document.getElementById("input").value;
+        if (input) {
+            displayUserMessage(input);
+
+            const pdfFile = document.getElementById("pdf-upload").files[0];
+            const pdfName = pdfFile ? pdfFile.name : "";
+
+            try {
+                let response = await fetch('/chatbot', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({ message: input, pdf_name: pdfName })
+                });
+
+                let data = await response.json();
+                console.log('Response:', data);
+
+                if (data.response) {
+                    displayBotMessage(data.response);
+                }
+            } catch (error) {
+                console.error("Error sending message:", error);
+                displayBotMessage("There was an error processing your question. Please try again.");
+            }
+
+            document.getElementById("input").value = "";
+        }
+    }
+
+        document.getElementById("input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>
